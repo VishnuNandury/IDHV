@@ -1,0 +1,20 @@
+# Runtime dependencies, pinned to the versions tested in backend/.venv.
+# Every pin has a CPython 3.12 manylinux wheel (or is pure Python) so the python:3.12-slim image builds
+# without compilers. Dev/test tools live in requirements-dev.txt.
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+sqlalchemy==2.1.1
+pydantic==2.13.5
+python-multipart==0.0.32
+pyjwt==2.15.1
+bcrypt==5.0.0
+psycopg[binary]==3.3.6
+anthropic==1.11.0
+python-docx==1.2.0
+openpyxl==3.1.5
+xlrd==2.0.2
+pypdf==6.19.0
+pypdfium2==5.13.0
+pillow==12.3.0
+pytesseract==0.3.13
+reportlab==5.0.1

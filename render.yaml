@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: idh-vault
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: idhv-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: claude-opus-5-5
+      - key: SEED_DEMO
+        value: "true"
+      - key: MAX_UPLOAD_MB
+        value: "5"
+
+databases:
+  - name: idhv-db
+    plan: free
+    region: singapore
+    ipAllowList: []  # no external connections; only Render services in the same account/region
