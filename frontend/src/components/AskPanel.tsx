@@ -3,7 +3,7 @@ import { api, errorMessage, isConsentError } from '../api'
 import type { AskResponse } from '../types'
 import CitedMarkdown from './CitedMarkdown'
 import { useDocPreview } from './DocumentPreview'
-import { Pill, Spinner, arr } from './ui'
+import { Pill, Spinner, aiBrand, arr } from './ui'
 
 interface Msg {
   role: 'user' | 'assistant'
@@ -71,7 +71,7 @@ function AssistantMessage({ m }: { m: Msg }) {
         </div>
         <div className="flex items-center gap-2 text-[11px] text-slate-400">
           {m.ms !== undefined && <span>{(m.ms / 1000).toFixed(1)}s</span>}
-          <Pill value={r.mode === 'claude' ? 'claude' : 'offline'} label={r.mode === 'claude' ? 'Claude' : 'Offline'} />
+          <Pill value={aiBrand(r.mode) ? 'claude' : 'offline'} label={aiBrand(r.mode) ?? 'Offline'} />
         </div>
       </div>
       {warnings.length > 0 && (

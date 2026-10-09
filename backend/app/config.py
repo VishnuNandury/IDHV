@@ -35,6 +35,13 @@ class Settings:
         self.secret_key: str = self._secret_key()
         self.anthropic_api_key: str = (os.environ.get("ANTHROPIC_API_KEY") or "").strip()
         self.ai_model: str = os.environ.get("AI_MODEL") or "claude-opus-5-5"
+        self.xai_api_key: str = (os.environ.get("XAI_API_KEY") or os.environ.get("GROK_API_KEY") or "").strip()
+        self.grok_model: str = os.environ.get("GROK_MODEL") or "grok-4.7"
+        self.xai_base_url: str = os.environ.get("XAI_BASE_URL") or "https://api.x.ai/v1"
+        self.groq_api_key: str = (os.environ.get("GROQ_API_KEY") or "").strip()
+        self.groq_model: str = os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b"
+        self.groq_vision_model: str = os.environ.get("GROQ_VISION_MODEL") or "qwen/qwen3.8-27b"
+        self.groq_base_url: str = os.environ.get("GROQ_BASE_URL") or "https://api.groq.com/openai/v1"
         self.seed_demo: bool = _bool("SEED_DEMO", True)
         self.auto_commit: bool = _bool("AUTO_COMMIT", False)
         self.max_upload_mb: int = int(os.environ.get("MAX_UPLOAD_MB") or 20)

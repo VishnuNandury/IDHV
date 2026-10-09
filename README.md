@@ -43,7 +43,7 @@ npm install
 npm run dev                                          # http://localhost:5173
 ```
 
-Optional: install Tesseract and ffmpeg for image OCR and video samples. If missing, the app reports it in `/api/system/info` and keeps running. Without `ANTHROPIC_API_KEY` the app runs in offline mode (regex extraction and rule-based answers).
+Optional: install Tesseract and ffmpeg for image OCR and video samples. If missing, the app reports it in `/api/system/info` and keeps running. Without an AI key (`ANTHROPIC_API_KEY`, `XAI_API_KEY` or `GROQ_API_KEY`) the app runs in offline mode (regex extraction and rule-based answers).
 
 Regenerate samples: `pip install pillow reportlab python-docx openpyxl` then `python samples/make_samples.py`.
 
@@ -55,6 +55,13 @@ Regenerate samples: `pip install pillow reportlab python-docx openpyxl` then `py
 | `SECRET_KEY` | JWT signing key (Render generates one) | dev value, change in prod |
 | `ANTHROPIC_API_KEY` | Enables Claude extraction and Q&A; unset = offline mode | unset |
 | `AI_MODEL` | Claude model id | `claude-opus-5-5` |
+| `XAI_API_KEY` | Enables Grok (xAI) extraction and Q&A when `ANTHROPIC_API_KEY` is unset (`GROK_API_KEY` also accepted) | unset |
+| `GROK_MODEL` | Grok model id | `grok-4.7` |
+| `XAI_BASE_URL` | xAI OpenAI-compatible endpoint | `https://api.x.ai/v1` |
+| `GROQ_API_KEY` | Enables Groq Cloud (`gsk_...` keys) when neither Claude nor Grok key is set | unset |
+| `GROQ_MODEL` | Groq text model for text documents and doctor Q&A (tool calling) | `openai/gpt-oss-120b` |
+| `GROQ_VISION_MODEL` | Groq vision model for scans/photos/video frames (max 3 images per document) | `qwen/qwen3.8-27b` |
+| `GROQ_BASE_URL` | Groq OpenAI-compatible endpoint | `https://api.groq.com/openai/v1` |
 | `SEED_DEMO` | Seed demo users and history when the DB is empty | `true` |
 | `AUTO_COMMIT` | Skip patient review and commit extractions automatically | `false` |
 | `MAX_UPLOAD_MB` | Per-file upload limit (the frontend reads it from `/api/system/info`; `render.yaml` sets `5`) | `20` |
@@ -69,14 +76,14 @@ Building the Docker image locally (Docker Desktop) is optional; Render builds it
 
 1. Push this repository to GitHub.
 2. In Render: **New > Blueprint**, select the repo. `render.yaml` creates the `idh-vault` web service (Docker, free plan, Singapore) and the `idhv-db` Postgres database.
-3. When prompted, set `ANTHROPIC_API_KEY` (optional; leave blank for offline mode).
+3. When prompted, set **one** AI key: `ANTHROPIC_API_KEY` (Claude), `XAI_API_KEY` (Grok, xAI) or `GROQ_API_KEY` (Groq, `gsk_...`). If several are set, the first in that order wins; leave all blank for offline mode.
 4. Wait for the build; the health check is `/api/health`. Open the service URL.
 
 Free-plan notes: the service sleeps when idle (first request is slow). Uploaded files are stored in Postgres (BYTEA), so they survive restarts and redeploys, but the free 1 GB Postgres database expires 30 days after creation (Render deletes it unless upgraded). Each upload request takes at most 7 files.
 
 ### Before sharing the URL
 
-The demo is public: anyone with the link can register and spend your Anthropic credits on extraction and Q&A. Before sharing it, set a monthly **spend limit on the Anthropic workspace** that owns `ANTHROPIC_API_KEY` (Console > Settings > Limits), or leave the key unset to run in offline mode. `render.yaml` already caps uploads at 5 MB per file and blocks external database connections (`ipAllowList: []`).
+The demo is public: anyone with the link can register and spend your AI credits on extraction and Q&A. Before sharing it, set a monthly **spend limit** on the account that owns the key (Anthropic Console > Settings > Limits, or the xAI / Groq console's billing limits), or leave the keys unset to run in offline mode. `render.yaml` already caps uploads at 5 MB per file and blocks external database connections (`ipAllowList: []`).
 
 ## Demo script (about 5 minutes)
 

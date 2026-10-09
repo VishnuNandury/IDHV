@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import type { Role } from '../types'
-import { Pill } from './ui'
+import { Pill, aiBrand } from './ui'
 
 const NAV: Record<Role, { to: string; label: string; icon: string; end?: boolean }[]> = {
   patient: [
@@ -40,16 +40,18 @@ export function Logo({ className = '' }: { className?: string }) {
 export function AiBadge() {
   const { systemInfo } = useAuth()
   if (!systemInfo) return <Pill value="offline" label="AI: unknown" />
-  const claude = systemInfo.ai_mode === 'claude'
+  const mode = systemInfo.ai_mode
+  const brand = aiBrand(mode)
+  const claude = brand !== null
   return (
     <span
-      title={claude ? `Model: ${systemInfo.model || 'Claude'}` : 'Offline mode — set ANTHROPIC_API_KEY for AI answers'}
+      title={claude ? `Model: ${systemInfo.model || brand}` : 'Offline mode — set ANTHROPIC_API_KEY, XAI_API_KEY or GROQ_API_KEY for AI answers'}
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
         claude ? 'bg-violet-100 text-violet-700' : 'bg-slate-200 text-slate-700'
       }`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${claude ? 'bg-violet-500' : 'bg-slate-500'}`} />
-      {claude ? `AI: Claude${systemInfo.model ? ` · ${systemInfo.model}` : ''}` : 'AI: Offline'}
+      {claude ? `AI: ${brand}${systemInfo.model ? ` · ${systemInfo.model}` : ''}` : 'AI: Offline'}
     </span>
   )
 }

@@ -12,6 +12,9 @@ os.environ["SEED_DEMO"] = "false"
 os.environ["AUTO_COMMIT"] = "false"
 os.environ["SECRET_KEY"] = "test-secret-key-that-is-long-enough-for-hs256"
 os.environ["ANTHROPIC_API_KEY"] = ""  # tests never call the real API
+os.environ["XAI_API_KEY"] = ""
+os.environ["GROK_API_KEY"] = ""
+os.environ["GROQ_API_KEY"] = ""
 os.environ["BCRYPT_ROUNDS"] = "4"  # fast hashing in tests
 os.environ["FRONTEND_DIST"] = os.path.join(_TMP_DIR, "no-frontend")
 

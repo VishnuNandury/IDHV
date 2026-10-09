@@ -3,7 +3,7 @@ import { api } from '../../api'
 import { useAuth } from '../../auth'
 import { FilePreview, useDocPreview } from '../../components/DocumentPreview'
 import ReviewForm, { cleanExtraction, normaliseExtraction } from '../../components/ReviewForm'
-import { Card, Empty, ErrorBox, Loading, PageHeader, Pill, Spinner, btn, fmtBytes, fmtDate, titleCase } from '../../components/ui'
+import { Card, Empty, ErrorBox, Loading, PageHeader, Pill, Spinner, aiBrand, btn, fmtBytes, fmtDate, titleCase } from '../../components/ui'
 import type { DocumentRow, ExtractionResult, UploadResponse } from '../../types'
 
 const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,.mp4,.mov,.webm,.avi,.txt,.csv'
@@ -170,7 +170,7 @@ export default function Upload() {
             reviewing ? (
               <span>
                 {reviewing.filename} · digitised by{' '}
-                <Pill value={reviewing.provider || 'offline'} label={reviewing.provider === 'claude' ? 'Claude' : 'Offline OCR'} /> — correct anything that's wrong, then commit.
+                <Pill value={aiBrand(reviewing.provider) ? 'claude' : reviewing.provider || 'offline'} label={aiBrand(reviewing.provider) ?? 'Offline OCR'} /> — correct anything that's wrong, then commit.
               </span>
             ) : undefined
           }

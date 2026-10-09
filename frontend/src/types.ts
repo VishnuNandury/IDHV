@@ -292,7 +292,7 @@ export interface AskResponse {
   answer: string
   citations?: Citation[]
   tool_calls?: ToolCall[]
-  mode?: 'claude' | 'offline' | string
+  mode?: 'claude' | 'grok' | 'groq' | 'offline' | string
   warnings?: string[]
 }
 
@@ -340,7 +340,7 @@ export interface AdminStats {
 }
 
 export interface SystemInfo {
-  ai_mode: 'claude' | 'offline' | string
+  ai_mode: 'claude' | 'grok' | 'groq' | 'offline' | string
   model?: string | null
   ocr_available?: boolean
   ffmpeg_available?: boolean

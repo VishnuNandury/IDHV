@@ -18,6 +18,16 @@ services:
         sync: false
       - key: AI_MODEL
         value: claude-opus-5-5
+      - key: XAI_API_KEY
+        sync: false
+      - key: GROK_MODEL
+        value: grok-4.7
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      - key: GROQ_VISION_MODEL
+        value: qwen/qwen3.8-27b
       - key: SEED_DEMO
         value: "true"
       - key: MAX_UPLOAD_MB

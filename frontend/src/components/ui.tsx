@@ -220,6 +220,11 @@ const PILL: Record<string, string> = {
   offline: 'bg-slate-200 text-slate-700',
 }
 
+/** Display name for an AI provider/mode ('claude' | 'grok' | 'groq'); null for offline or unknown. */
+export function aiBrand(mode?: string | null): string | null {
+  return ({ claude: 'Claude', grok: 'Grok', groq: 'Groq' } as Record<string, string>)[mode || ''] ?? null
+}
+
 export function Pill({ value, label, className = '' }: { value?: string | null; label?: ReactNode; className?: string }) {
   if (!value && !label) return null
   const cls = PILL[(value || '').toLowerCase()] || 'bg-slate-100 text-slate-600'
